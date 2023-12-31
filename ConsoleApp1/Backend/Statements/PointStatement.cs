@@ -25,8 +25,8 @@ namespace GeoWall_E
             for (var i = 0; i < count; i++)
             {
                 var point = new Point();
-                point.AsignX(random.Next(0, 10000));
-                point.AsignY(random.Next(0, 10000));
+                point.AsignX(random.Next(0, 800));
+                point.AsignY(random.Next(0, 800));
                 points.Add(point);
             }
             return new Sequence(points);
