@@ -1,61 +1,32 @@
 
+using G_Wall_E;
+using INTERPRETE_C__to_HULK;
 using System.Runtime.CompilerServices;
 
 namespace GeoWall_E
 {
-   
+
     public class Link
     {
-        private readonly string code;
-        private Error errores;
-        private List<Tuple<Type, Color>> para_dibujar;
-        private List<Token> tokens;
-        private AST? ast;
-        private Evaluator? evaluator;
-        public List<Tuple<Type, Color>> ToDraw => para_dibujar;
-        public Error Errors => errores;
-
-        public Link(string code)
+        
+        public static List<IDrawable> Start(string code)
         {
-            this.code = code;
-            errores = new Error();
-            para_dibujar = new List<Tuple<Type, Color>>();
-            tokens = new List<Token>();
-
-            LinkLexer();
-            LinkParse();
-            LinkSemantic();
-            if (!errores.AnyError())
+            try
             {
-                LinkEvaluate();
+                Semantic_Analyzer analyzer = new Semantic_Analyzer();
+                Lexer T = new Lexer(code);
+                List<Token> tokens = T.Tokens_sequency;
+                Parser parser = new Parser(tokens);
+                Node node = parser.Parse();
+                analyzer.Read_Parser(node);
+                return analyzer.Choice(node);
+            }
+            catch (Exception e)
+            {
+                
+                Console.WriteLine(e.Message);
+                return new List<IDrawable>();
             }
         }
-
-        public void LinkEvaluate()
-        {
-            this.evaluator.Evaluate();
-            this.para_dibujar = evaluator.ToDraw;
-        }
-
-        public void LinkLexer()
-        {
-            var lexer = new Lexer(code);
-            tokens = lexer.Tokenize();
-            errores = lexer.Errors;
-        }
-
-        public void LinkParse()
-        {
-            var parser = new Parser(tokens, errores);
-            ast = parser.Parse_();
-            errores = parser.Errors;
-        }
-
-        public void LinkSemantic()
-        {
-            if (ast == null) return;
-            evaluator = new Evaluator(ast.Root, errores);
-        }
-
     }
 }
