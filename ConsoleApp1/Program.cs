@@ -7,7 +7,8 @@ public class Program
 {
     public static void Main()
     {
-        List<IDrawable> list = Link.Start("3+4;");
+        List<IDrawable> list = Link.Start("point p1");
+        string error = Link.Error;
         
         int b = 5;
     }

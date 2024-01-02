@@ -8,7 +8,7 @@ namespace GeoWall_E
 
     public class Link
     {
-        
+        public static string Error = new string("");
         public static List<IDrawable> Start(string code)
         {
             try
@@ -23,9 +23,10 @@ namespace GeoWall_E
             }
             catch (Exception e)
             {
+                Error=e.Message; 
                 
-                Console.WriteLine(e.Message);
                 return new List<IDrawable>();
+                
             }
         }
     }
